@@ -3,4 +3,14 @@
     <color name="colorPrimary">#FF4422</color>
     <color name="colorPrimaryDark">#990101</color>
     <color name="colorAccent">#BBCC33</color>
+
+    <color name="dividerGray">#222222</color>
+    <color name="scoreBackgroundLightGray">#DDDDCC</color>
+    <color name="aScore">#0058A9</color>
+    <color name="bScore">#27A146</color>
+    <color name="cScore">#F68B1F</color>
+    <color name="starTextColor">#001133</color>
+
+    <color name="titleFontColor">#333333</color>
+    <color name="subtitleFontColor">#474433</color>
 </resources>

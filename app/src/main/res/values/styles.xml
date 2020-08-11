@@ -9,9 +9,49 @@
 
     <style name="item_star" parent="Widget.AppCompat.TextView">
         <item name="android:background">@drawable/ic_baseline_star_24</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/starTextColor</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="item_health_score" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@color/scoreBackgroundLightGray</item>
+        <item name="android:textSize">22dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="item_health_score.A" parent="item_health_score">
+        <item name="android:textColor">@color/aScore</item>
+    </style>
+    <style name="item_health_score.B" parent="item_health_score">
+        <item name="android:textColor">@color/bScore</item>
+    </style>
+    <style name="item_health_score.C" parent="item_health_score">
+        <item name="android:textColor">@color/cScore</item>
+    </style>
+
+    <style name="item_restaurant_name" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/titleFontColor</item>
+    </style>
+
+    <style name="item_borough" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/subtitleFontColor</item>
+    </style>
+
+    <style name="item_divider">
+        <item name="android:background">@color/dividerGray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
     </style>
 
 </resources>
