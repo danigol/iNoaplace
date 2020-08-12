@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.daniellegolinsky.inoaplace.R
 import com.daniellegolinsky.inoaplace.dagger.ViewModelProviderFactory
 import com.daniellegolinsky.inoaplace.databinding.InoaplaceFragmentBinding
+import com.daniellegolinsky.inoaplace.model.RestaurantInfo
 import com.daniellegolinsky.inoaplace.viewModel.INoaViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
                                       .get(INoaViewModel::class.java)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -38,5 +40,13 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         layoutBinding.viewModel = viewModel
         layoutBinding.executePendingBindings()
         return layoutBinding.root
+    }
+
+    private fun updateList(restaurantList: MutableList<RestaurantInfo>?) {
+        restaurantList?.let {
+
+        } ?.run {
+            // TODO display "No information."
+        }
     }
 }

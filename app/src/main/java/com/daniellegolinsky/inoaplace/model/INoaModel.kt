@@ -1,18 +1,20 @@
 package com.daniellegolinsky.inoaplace.model
 
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class INoaModel @Inject constructor(var restaurantsAPI: RestaurantsAPI) {
 
-    private lateinit var restaurantList: MutableList<RestaurantInfo>
+    private lateinit var restaurantList: List<RestaurantInfo>
 
-    fun getResturantList() : MutableList<RestaurantInfo> {
-
-        // TODO API request (Should do call to observable method first)
-
-
-        // TODO Sort by healthscore
-        return restaurantList
+    fun getResturantList(forceUpdate: Boolean = true) : Observable<List<RestaurantInfo>> {
+        if (forceUpdate) {
+            return restaurantsAPI.getRestaurantList().map {
+                restaurantList = it
+                return@map it
+            }
+        }
+        return Observable.just(restaurantList)
     }
 
 }

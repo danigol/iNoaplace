@@ -1,6 +1,6 @@
 package com.daniellegolinsky.inoaplace.model
 
-import retrofit2.Call
+import io.reactivex.Observable
 import retrofit2.http.GET
 
 interface RestaurantsAPI {
@@ -9,5 +9,5 @@ interface RestaurantsAPI {
      * https://raw.githubusercontent.com/mongodb/docs-assets/primer-dataset/primer-dataset.json
      */
     @GET("mongodb/docs-assets/primer-dataset/primer-dataset.json")
-    fun getRestaurantList() : Call<List<RestaurantInfo>>
+    fun getRestaurantList() : Observable<List<RestaurantInfo>>
 }
