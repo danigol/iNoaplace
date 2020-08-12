@@ -30,7 +30,10 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle? ): View? {
-        layoutBinding = DataBindingUtil.setContentView(this.activity!!, R.layout.inoaplace_fragment)
+        layoutBinding = DataBindingUtil.inflate(inflater,
+                                                R.layout.inoaplace_fragment,
+                                                container,
+                                 false)
         layoutBinding.lifecycleOwner = this
         layoutBinding.viewModel = viewModel
         layoutBinding.executePendingBindings()
