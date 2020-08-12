@@ -1,10 +1,10 @@
-package com.daniellegolinsky.inoaplace
+package com.daniellegolinsky.inoaplace.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentContainerView
+import com.daniellegolinsky.inoaplace.R
+import dagger.android.DaggerActivity
 
-class MainActivity : AppCompatActivity() {
+class INoaActivity : DaggerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.inoaplace_activity)

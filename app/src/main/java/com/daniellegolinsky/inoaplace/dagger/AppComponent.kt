@@ -1,6 +1,6 @@
 package com.daniellegolinsky.inoaplace.dagger
 
-import com.daniellegolinsky.inoaplace.utility.iNoaApplication
+import com.daniellegolinsky.inoaplace.utility.INoaApplication
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -12,12 +12,12 @@ import javax.inject.Singleton
     modules = [ AndroidSupportInjectionModule::class,
                 AppModule::class ]
 )
-interface AppComponent : AndroidInjector<iNoaApplication> {
+interface AppComponent : AndroidInjector<INoaApplication> {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(app: iNoaApplication) : Builder
+        fun application(app: INoaApplication) : Builder
         fun build(): AppComponent
     }
 }

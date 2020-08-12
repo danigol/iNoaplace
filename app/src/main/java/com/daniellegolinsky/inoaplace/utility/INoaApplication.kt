@@ -5,7 +5,7 @@ import com.daniellegolinsky.inoaplace.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 
-class iNoaApplication : DaggerApplication() {
+class INoaApplication : DaggerApplication() {
 
     companion object {
         lateinit var component: AppComponent
