@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.daniellegolinsky.inoaplace.R
 import com.daniellegolinsky.inoaplace.dagger.ViewModelProviderFactory
 import com.daniellegolinsky.inoaplace.databinding.InoaplaceFragmentBinding
@@ -22,11 +24,14 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
 
     lateinit var layoutBinding: InoaplaceFragmentBinding
 
+    lateinit var recyclerView: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
                                       .get(INoaViewModel::class.java)
 
+        viewModel.restaurantList.observe(this, Observer { updateList(it) })
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -39,12 +44,19 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         layoutBinding.lifecycleOwner = this
         layoutBinding.viewModel = viewModel
         layoutBinding.executePendingBindings()
+
         return layoutBinding.root
     }
 
-    private fun updateList(restaurantList: MutableList<RestaurantInfo>?) {
+    override fun onResume() {
+        super.onResume()
+        recyclerView = layoutBinding.root.findViewById(R.id.restaurant_list_recyclerview)
+        viewModel.createMockData()
+    }
+
+    private fun updateList(restaurantList: List<RestaurantInfo>?) {
         restaurantList?.let {
-            // TODO Display information through recyclerview adapter
+            recyclerView.adapter = RestaurantListViewAdapter(restaurantList)
         }
     }
 }
