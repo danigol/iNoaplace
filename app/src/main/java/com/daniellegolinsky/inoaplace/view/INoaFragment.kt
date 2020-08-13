@@ -44,9 +44,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
 
     private fun updateList(restaurantList: MutableList<RestaurantInfo>?) {
         restaurantList?.let {
-
-        } ?.run {
-            // TODO display "No information."
+            // TODO Display information through recyclerview adapter
         }
     }
 }

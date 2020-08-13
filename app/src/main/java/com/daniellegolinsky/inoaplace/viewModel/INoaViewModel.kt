@@ -12,4 +12,6 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     private var _restaurantList: MutableLiveData<List<RestaurantInfo>> = MutableLiveData()
     val restaurantList: LiveData<List<RestaurantInfo>>
         get() = _restaurantList
+
+
 }
