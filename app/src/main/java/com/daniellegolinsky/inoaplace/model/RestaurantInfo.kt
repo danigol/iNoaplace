@@ -11,7 +11,7 @@ class RestaurantInfo() : Serializable {
 
     // TODO Implement logic and parsing
     fun getLatestGrade(): String {
-        return "A"
+        return grades
     }
     // TODO Implement logic and parsing
     fun getLatestGradeValue(): Int {

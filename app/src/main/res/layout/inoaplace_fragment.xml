@@ -51,14 +51,14 @@
             android:text="@string/back_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:onClick="@{() -> viewModel.startClicked()}"/>
         <Button
             android:id="@+id/back_page"
             style="@style/paging_button"
             android:text="@string/back"
             app:layout_constraintStart_toEndOf="@id/back_to_start"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:onClick="@{() -> viewModel.backClicked()}"/>
 
         <TextView
             android:id="@+id/page_number"
@@ -68,21 +68,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/forward_page"
             app:layout_constraintStart_toEndOf="@id/back_page"
-            tools:text="1/2020" />
+            tools:text="1/2020"
+            android:text="@{viewModel.pageInidicator}"/>
         <Button
             android:id="@+id/forward_page"
             style="@style/paging_button"
             android:text="@string/forward"
             app:layout_constraintEnd_toStartOf="@id/forward_to_end"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:onClick="@{() -> viewModel.nextClicked()}"/>
         <Button
             android:id="@+id/forward_to_end"
             style="@style/paging_button"
             android:text="@string/forward_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:onClick="@{() -> viewModel.endClicked()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

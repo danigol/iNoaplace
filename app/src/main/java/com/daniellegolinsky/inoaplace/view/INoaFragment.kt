@@ -32,7 +32,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
                                       .get(INoaViewModel::class.java)
-
+        viewModel.displayPage()
         viewModel.restaurantList.observe(this, Observer { updateList(it) })
 
         recyclerViewAdapter = RestaurantListViewAdapter()
@@ -54,7 +54,6 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.createMockData()
         recyclerView = layoutBinding.root.findViewById(R.id.restaurant_list_recyclerview)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)

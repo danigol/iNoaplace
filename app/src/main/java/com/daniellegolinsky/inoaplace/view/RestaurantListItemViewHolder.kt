@@ -14,7 +14,13 @@ class RestaurantListItemViewHolder(var view: View) : RecyclerView.ViewHolder(vie
 
     fun bind(restaurantInfo: RestaurantInfo) {
         itemName.text = restaurantInfo.name
-        itemHealthScore.text = restaurantInfo.getLatestGrade()
         itemBorough.text = restaurantInfo.borough
+
+        itemHealthScore.text = restaurantInfo.getLatestGrade()
+        when (restaurantInfo.getLatestGrade()) {
+            "A" -> itemHealthScore.setTextColor(view.resources.getColor(R.color.aScore, null))
+            "B" -> itemHealthScore.setTextColor(view.resources.getColor(R.color.bScore, null))
+            else -> itemHealthScore.setTextColor(view.resources.getColor(R.color.cScore, null))
+        }
     }
 }
