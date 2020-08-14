@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">iNoaplace</string>
+    <string name="star_rating">Star Rating</string>
+    <string name="health_score">Health Score</string>
+    <string name="filter_by">Filter by:</string>
+    <string name="back_back">&lt;&lt;</string>
+    <string name="back">&lt;</string>
+    <string name="forward">&gt;</string>
+    <string name="forward_forward">&gt;&gt;</string>
+    <string name="empty_list_error">No restaurant data loaded, please refresh.</string>
 </resources>
