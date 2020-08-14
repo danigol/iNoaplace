@@ -9,19 +9,20 @@ import javax.inject.Inject
 
 class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
 
-    private var _restaurantList: MutableLiveData<MutableList<RestaurantInfo>> = MutableLiveData()
-    val restaurantList: LiveData<MutableList<RestaurantInfo>>
+    private var _restaurantList: MutableLiveData<List<RestaurantInfo>> = MutableLiveData()
+    val restaurantList: LiveData<List<RestaurantInfo>>
         get() = _restaurantList
 
     fun createMockData() {
-        _restaurantList.value = mutableListOf()
+        var itemList: MutableList<RestaurantInfo> = mutableListOf()
         // TODO Implement as observable method, subscribed to onCreate of view
         for (i in 0..9) {
             var item = RestaurantInfo()
             item.name = "Restaurant $i"
             item.borough = "Brooklyn"
-            _restaurantList.value?.add(item)
+            itemList.add(item)
         }
+        _restaurantList.value = itemList
     }
 
 }

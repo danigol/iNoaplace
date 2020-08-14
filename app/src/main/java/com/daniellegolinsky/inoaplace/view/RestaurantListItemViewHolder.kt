@@ -8,11 +8,11 @@ import com.daniellegolinsky.inoaplace.model.RestaurantInfo
 
 class RestaurantListItemViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
-    fun bind(restaurantInfo: RestaurantInfo) {
-        var itemName = view.findViewById<TextView>(R.id.item_name)
-        var itemHealthScore = view.findViewById<TextView>(R.id.item_health_score)
-        var itemBorough = view.findViewById<TextView>(R.id.item_borough)
+    private var itemName: TextView = view.findViewById(R.id.item_name)
+    private var itemHealthScore: TextView = view.findViewById(R.id.item_health_score)
+    private var itemBorough: TextView = view.findViewById(R.id.item_borough)
 
+    fun bind(restaurantInfo: RestaurantInfo) {
         itemName.text = restaurantInfo.name
         itemHealthScore.text = restaurantInfo.getLatestGrade()
         itemBorough.text = restaurantInfo.borough
