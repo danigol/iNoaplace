@@ -1,10 +1,15 @@
 package com.daniellegolinsky.inoaplace.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.daniellegolinsky.inoaplace.model.INoaModel
 import com.daniellegolinsky.inoaplace.model.RestaurantInfo
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import javax.inject.Inject
 
 class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
@@ -22,7 +27,10 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     private var currentPage: Int = 0
     private var maxPages: Int = 0
 
+    private var disposables: CompositeDisposable = CompositeDisposable()
+
     init {
+        requestRestaurantList()
         if (model.restaurantList.isNotEmpty()) {
             var remainder: Int = if (model.restaurantList.size % itemsPerPage > 0) {
                 1
@@ -34,21 +42,42 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         }
     }
 
+    fun onDestroy() {
+        disposables.dispose()
+    }
+
+    private fun requestRestaurantList() {
+        disposables.add(
+            model.getResturantList().map {
+                displayPage()
+            }.onErrorReturn {
+                Log.e("VIEW_MODEL", it.message ?: "-No error string-")
+            }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        )
+    }
+
     // Take a chunk out of the data to paginate
     fun displayPage() {
-        if (currentPage < maxPages) {
-            var lastIndex = (currentPage + 1) * itemsPerPage
-            if (lastIndex > model.restaurantList.size) {
-                lastIndex = model.restaurantList.lastIndex + 1 // Sublist is exclusive
+        if (model.restaurantList.isNotEmpty()) {
+            if (currentPage < maxPages) {
+                var lastIndex = (currentPage + 1) * itemsPerPage
+                if (lastIndex > model.restaurantList.size) {
+                    lastIndex = model.restaurantList.lastIndex + 1 // Sublist is exclusive
+                }
+                _restaurantList.value = model.restaurantList.subList(
+                    currentPage * itemsPerPage,
+                    lastIndex
+                )
+            } else if (currentPage == maxPages) {
+                _restaurantList.value = model.restaurantList.subList(
+                    currentPage * itemsPerPage,
+                    model.restaurantList.lastIndex
+                )
             }
-            _restaurantList.value = model.restaurantList.subList(currentPage * itemsPerPage,
-                                                                 lastIndex)
+            _pageIndicator.value = "Page: ${currentPage + 1} of $maxPages"
         }
-        else if (currentPage == maxPages) {
-            _restaurantList.value = model.restaurantList.subList(currentPage * itemsPerPage,
-                                                                 model.restaurantList.lastIndex)
-        }
-        _pageIndicator.value = "Page: ${currentPage + 1} of $maxPages"
     }
 
     fun nextClicked() {
