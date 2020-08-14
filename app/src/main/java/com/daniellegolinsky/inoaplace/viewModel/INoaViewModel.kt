@@ -39,7 +39,7 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         if (currentPage < maxPages) {
             var lastIndex = (currentPage + 1) * itemsPerPage
             if (lastIndex > model.restaurantList.size) {
-                lastIndex = model.restaurantList.lastIndex
+                lastIndex = model.restaurantList.lastIndex + 1 // Sublist is exclusive
             }
             _restaurantList.value = model.restaurantList.subList(currentPage * itemsPerPage,
                                                                  lastIndex)

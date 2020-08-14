@@ -10,7 +10,7 @@ class INoaModel @Inject constructor(var restaurantsAPI: RestaurantsAPI) {
     // TODO Obviously remove mock data
     init {
         var itemList: MutableList<RestaurantInfo> = mutableListOf()
-        for (i in 0..35) {
+        for (i in 0..25358) {
             var item = RestaurantInfo()
             item.name = "Restaurant $i"
             item.borough = "Brooklyn"
