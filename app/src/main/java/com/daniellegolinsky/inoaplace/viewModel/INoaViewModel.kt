@@ -23,6 +23,10 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     val pageInidicator: LiveData<String>
         get() = _pageIndicator
 
+    var _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
     private var currentPage: Int = 0
     private var maxPages: Int = 0
 
@@ -48,12 +52,13 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     fun requestRestaurantList() {
         disposables.add(
             model.getResturantList().map { newRestaurantInfo ->
+                _isLoading.postValue(true)
                 displayPage(newRestaurantInfo)
             }.onErrorReturn {
                 Log.e("VIEW_MODEL", it.message ?: "-No error string-")
             }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe { _isLoading.postValue(false) }
         )
     }
 
