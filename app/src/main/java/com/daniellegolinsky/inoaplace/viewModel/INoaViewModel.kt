@@ -9,7 +9,6 @@ import com.daniellegolinsky.inoaplace.model.RestaurantInfo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 import javax.inject.Inject
 
 class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
@@ -66,17 +65,17 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
                 if (lastIndex > model.restaurantList.size) {
                     lastIndex = model.restaurantList.lastIndex + 1 // Sublist is exclusive
                 }
-                _restaurantList.value = model.restaurantList.subList(
+                _restaurantList.postValue(model.restaurantList.subList(
                     currentPage * itemsPerPage,
                     lastIndex
-                )
+                ))
             } else if (currentPage == maxPages) {
-                _restaurantList.value = model.restaurantList.subList(
+                _restaurantList.postValue(model.restaurantList.subList(
                     currentPage * itemsPerPage,
                     model.restaurantList.lastIndex
-                )
+                ))
             }
-            _pageIndicator.value = "Page: ${currentPage + 1} of $maxPages"
+            _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
         }
     }
 
