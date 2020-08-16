@@ -29,26 +29,26 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     private var disposables: CompositeDisposable = CompositeDisposable()
 
     init {
-        requestRestaurantList()
-        if (model.restaurantList.isNotEmpty()) {
-            var remainder: Int = if (model.restaurantList.size % itemsPerPage > 0) {
-                1
-            }
-            else {
-                0
-            }
-            maxPages = ( model.restaurantList.size / itemsPerPage ) + remainder
-        }
+//        requestRestaurantList()
+//        if (model.restaurantList.isNotEmpty()) {
+//            var remainder: Int = if (model.restaurantList.size % itemsPerPage > 0) {
+//                1
+//            }
+//            else {
+//                0
+//            }
+//            maxPages = ( model.restaurantList.size / itemsPerPage ) + remainder
+//        }
     }
 
     fun onDestroy() {
         disposables.dispose()
     }
 
-    private fun requestRestaurantList() {
+    fun requestRestaurantList() {
         disposables.add(
-            model.getResturantList().map {
-                displayPage()
+            model.getResturantList().map { newRestaurantInfo ->
+                displayPage(newRestaurantInfo)
             }.onErrorReturn {
                 Log.e("VIEW_MODEL", it.message ?: "-No error string-")
             }.subscribeOn(Schedulers.io())
@@ -58,21 +58,21 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     }
 
     // Take a chunk out of the data to paginate
-    fun displayPage() {
-        if (model.restaurantList.isNotEmpty()) {
+    fun displayPage(newRestaurantList: List<RestaurantInfo>) {
+        if (newRestaurantList.isNotEmpty()) {
             if (currentPage < maxPages) {
                 var lastIndex = (currentPage + 1) * itemsPerPage
-                if (lastIndex > model.restaurantList.size) {
-                    lastIndex = model.restaurantList.lastIndex + 1 // Sublist is exclusive
+                if (lastIndex > newRestaurantList.size) {
+                    lastIndex = newRestaurantList.lastIndex + 1 // Sublist is exclusive
                 }
-                _restaurantList.postValue(model.restaurantList.subList(
+                _restaurantList.postValue(newRestaurantList.subList(
                     currentPage * itemsPerPage,
                     lastIndex
                 ))
             } else if (currentPage == maxPages) {
-                _restaurantList.postValue(model.restaurantList.subList(
+                _restaurantList.postValue(newRestaurantList.subList(
                     currentPage * itemsPerPage,
-                    model.restaurantList.lastIndex
+                    newRestaurantList.lastIndex
                 ))
             }
             _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
@@ -83,24 +83,24 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         if (currentPage < maxPages - 1) {
             ++currentPage
         }
-        displayPage()
+        displayPage(model.restaurantList)
     }
 
     fun endClicked() {
         currentPage = maxPages - 1
-        displayPage()
+        displayPage(model.restaurantList)
     }
 
     fun backClicked() {
         if (currentPage > 0) {
             --currentPage
         }
-        displayPage()
+        displayPage(model.restaurantList)
     }
 
     fun startClicked() {
         currentPage = 0
-        displayPage()
+        displayPage(model.restaurantList)
     }
 
 }

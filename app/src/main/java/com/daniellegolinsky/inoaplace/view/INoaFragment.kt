@@ -32,7 +32,6 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
                                       .get(INoaViewModel::class.java)
-        viewModel.displayPage()
         viewModel.restaurantList.observe(this, Observer { updateList(it) })
 
         recyclerViewAdapter = RestaurantListViewAdapter()
@@ -57,6 +56,13 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         recyclerView = layoutBinding.root.findViewById(R.id.restaurant_list_recyclerview)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel.requestRestaurantList()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
     }
 
     private fun updateList(restaurantList: List<RestaurantInfo>?) {
