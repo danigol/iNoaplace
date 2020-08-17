@@ -10,3 +10,11 @@ fun showIfEmpty(view: View, isEmpty: Boolean?) {
         else -> view.visibility = View.GONE
     }
 }
+
+@BindingAdapter("loadingVisibility")
+fun showIfLoading(view: View, isLoading: Boolean?) {
+    when (isLoading) {
+        true -> view.visibility = View.VISIBLE
+        else -> view.visibility = View.GONE
+    }
+}
