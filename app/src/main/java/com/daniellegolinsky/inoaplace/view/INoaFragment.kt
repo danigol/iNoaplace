@@ -57,7 +57,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.requestRestaurantList()
+        viewModel.requestRestaurantList(true)
     }
 
     override fun onDestroy() {
@@ -68,6 +68,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
     private fun updateList(restaurantList: List<RestaurantInfo>?) {
         restaurantList?.let {
             recyclerViewAdapter.setRestaurantInfoList(restaurantList)
+            layoutBinding.invalidateAll()
         }
     }
 }

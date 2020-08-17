@@ -39,7 +39,7 @@ class INoaActivity @Inject constructor() : DaggerAppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.refresh_menu_button -> {
-                viewModel.requestRestaurantList()
+                viewModel.requestRestaurantList(true)
                 true
             }
             else -> super.onOptionsItemSelected(item)

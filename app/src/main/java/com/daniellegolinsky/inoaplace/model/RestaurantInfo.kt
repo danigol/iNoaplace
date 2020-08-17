@@ -20,16 +20,28 @@ class RestaurantInfo() : Serializable {
      *  "restaurant_id": "30075445"},
      */
 
-    var name: String = ""
+    private var name: String = ""
     var borough: String = ""
     private var grades: List<HealthGrade> = listOf()
     var mostRecentHealthScore: String = ""
+
+    fun getName(): String {
+        return if (name.isBlank()) {
+            "No Name Yet"
+        }
+        else {
+            name
+        }
+    }
 
     fun getLatestGrade(): String {
         if (mostRecentHealthScore.isBlank()) {
             var latestHealthGrade = HealthGrade()
             if (grades.isNotEmpty()) {
                 latestHealthGrade = grades[0]
+                if (latestHealthGrade.grade == ("Not Yet Graded")) {
+                    latestHealthGrade.grade = "P" // Pending
+                }
             }
             mostRecentHealthScore = latestHealthGrade.grade
         }

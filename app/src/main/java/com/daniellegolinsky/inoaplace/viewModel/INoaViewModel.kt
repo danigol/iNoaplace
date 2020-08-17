@@ -36,10 +36,10 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         disposables.dispose()
     }
 
-    fun requestRestaurantList() {
+    fun requestRestaurantList(forceUpdateFromServer: Boolean = false) {
         _isLoading.postValue(true)
         disposables.add(
-            model.getRestaurantList()
+            model.getRestaurantList(forceUpdateFromServer)
                 .map { newRestaurantInfo ->
                     if (newRestaurantInfo.isNotEmpty()) {
                         maxPages = newRestaurantInfo.size / itemsPerPage
@@ -66,32 +66,28 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         )
     }
 
-    fun createSublist(list: MutableList<RestaurantInfo>) {
-
-    }
-
     fun nextClicked() {
         if (currentPage < maxPages - 1) {
             ++currentPage
         }
-        requestRestaurantList()
+        requestRestaurantList(false)
     }
 
     fun endClicked() {
         currentPage = maxPages - 1
-        requestRestaurantList()
+        requestRestaurantList(false)
     }
 
     fun backClicked() {
         if (currentPage > 0) {
             --currentPage
         }
-        requestRestaurantList()
+        requestRestaurantList(false)
     }
 
     fun startClicked() {
         currentPage = 0
-        requestRestaurantList()
+        requestRestaurantList(false)
     }
 
 }

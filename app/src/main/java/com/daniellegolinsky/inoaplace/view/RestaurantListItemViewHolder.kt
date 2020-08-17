@@ -13,7 +13,7 @@ class RestaurantListItemViewHolder(var view: View) : RecyclerView.ViewHolder(vie
     private var itemBorough: TextView = view.findViewById(R.id.item_borough)
 
     fun bind(restaurantInfo: RestaurantInfo) {
-        itemName.text = restaurantInfo.name
+        itemName.text = restaurantInfo.getName()
         itemBorough.text = restaurantInfo.borough
 
         itemHealthScore.text = restaurantInfo.getLatestGrade()
