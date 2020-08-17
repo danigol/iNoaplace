@@ -33,6 +33,7 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
                                       .get(INoaViewModel::class.java)
         viewModel.restaurantList.observe(this, Observer { updateList(it) })
+        viewModel.isLoading.observe(this, Observer { layoutBinding?.invalidateAll() })
 
         recyclerViewAdapter = RestaurantListViewAdapter()
     }

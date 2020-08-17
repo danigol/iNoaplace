@@ -14,21 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/refresh_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/ic_baseline_refresh_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/page_number"
-            visibleIfEmpty="@{viewModel.isLoading}"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/restaurant_list_recyclerview"
             android:layout_width="0dp"
@@ -42,6 +27,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/page_number"
             visibleIfEmpty="@{viewModel.restaurantList.size() > 0}"/>
+
+        <ImageView
+            android:id="@+id/refresh_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/ic_baseline_refresh_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/page_number"
+            visibleIfEmpty="@{viewModel.isLoading}"/>
 
         <TextView
             android:id="@+id/list_empty_message"

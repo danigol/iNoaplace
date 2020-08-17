@@ -23,7 +23,7 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     val pageInidicator: LiveData<String>
         get() = _pageIndicator
 
-    var _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
