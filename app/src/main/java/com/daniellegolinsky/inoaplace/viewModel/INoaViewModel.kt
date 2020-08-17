@@ -28,84 +28,70 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
         get() = _isLoading
 
     private var currentPage: Int = 0
-    private var maxPages: Int = 0
+    private var maxPages: Int = 1
 
     private var disposables: CompositeDisposable = CompositeDisposable()
-
-    init {
-//        requestRestaurantList()
-//        if (model.restaurantList.isNotEmpty()) {
-//            var remainder: Int = if (model.restaurantList.size % itemsPerPage > 0) {
-//                1
-//            }
-//            else {
-//                0
-//            }
-//            maxPages = ( model.restaurantList.size / itemsPerPage ) + remainder
-//        }
-    }
 
     fun onDestroy() {
         disposables.dispose()
     }
 
     fun requestRestaurantList() {
+        _isLoading.postValue(true)
         disposables.add(
-            model.getResturantList().map { newRestaurantInfo ->
-                _isLoading.postValue(true)
-                displayPage(newRestaurantInfo)
-            }.onErrorReturn {
-                Log.e("VIEW_MODEL", it.message ?: "-No error string-")
-            }.subscribeOn(Schedulers.io())
+            model.getRestaurantList()
+                .map { newRestaurantInfo ->
+                    if (newRestaurantInfo.isNotEmpty()) {
+                        maxPages = newRestaurantInfo.size / itemsPerPage
+                        if (newRestaurantInfo.size % itemsPerPage > 0) {
+                            ++maxPages
+                        }
+                        var currentIndex = currentPage * itemsPerPage
+                        var lastIndex = newRestaurantInfo.lastIndex
+                        if ((currentPage + 1) < maxPages) {
+                            lastIndex = (currentPage + 1) * itemsPerPage
+                        }
+                        _restaurantList.postValue(newRestaurantInfo.subList(
+                            currentIndex,
+                            lastIndex
+                        ))
+                        _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
+                    }
+                }
+                .doOnError { Log.e("VIEWMODEL", "Error: ${it?.message}") }
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { _isLoading.postValue(false) }
+                .doOnComplete { _isLoading.postValue(false) }
+                .subscribe()
         )
     }
 
-    // Take a chunk out of the data to paginate
-    fun displayPage(newRestaurantList: List<RestaurantInfo>) {
-        if (newRestaurantList.isNotEmpty()) {
-            if (currentPage < maxPages) {
-                var lastIndex = (currentPage + 1) * itemsPerPage
-                if (lastIndex > newRestaurantList.size) {
-                    lastIndex = newRestaurantList.lastIndex + 1 // Sublist is exclusive
-                }
-                _restaurantList.postValue(newRestaurantList.subList(
-                    currentPage * itemsPerPage,
-                    lastIndex
-                ))
-            } else if (currentPage == maxPages) {
-                _restaurantList.postValue(newRestaurantList.subList(
-                    currentPage * itemsPerPage,
-                    newRestaurantList.lastIndex
-                ))
-            }
-            _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
-        }
+    fun createSublist(list: MutableList<RestaurantInfo>) {
+
     }
 
     fun nextClicked() {
         if (currentPage < maxPages - 1) {
             ++currentPage
         }
-        displayPage(model.restaurantList)
+        requestRestaurantList()
     }
 
     fun endClicked() {
         currentPage = maxPages - 1
-        displayPage(model.restaurantList)
+        requestRestaurantList()
     }
 
     fun backClicked() {
         if (currentPage > 0) {
             --currentPage
         }
-        displayPage(model.restaurantList)
+        requestRestaurantList()
     }
 
     fun startClicked() {
         currentPage = 0
-        displayPage(model.restaurantList)
+        requestRestaurantList()
     }
 
 }

@@ -6,19 +6,19 @@ import javax.inject.Inject
 
 class INoaModel @Inject constructor(var restaurantsAPI: RestaurantsAPI) {
 
-    var restaurantList: List<RestaurantInfo> = listOf()
+    var cachedRestaurantList: List<RestaurantInfo> = listOf()
 
-    fun getResturantList(forceUpdate: Boolean = true) : Observable<List<RestaurantInfo>> {
+    fun getRestaurantList(forceUpdate: Boolean = true) : Observable<List<RestaurantInfo>> {
         if (forceUpdate) {
             return restaurantsAPI.getRestaurantList().map {
-                restaurantList = it
+                cachedRestaurantList = it
                 return@map it
             }.onErrorReturn {
                 Log.e("MODEL", it.message ?: "-No error string-")
-                return@onErrorReturn restaurantList
+                return@onErrorReturn cachedRestaurantList
             }
         }
-        return Observable.just(restaurantList)
+        return Observable.just(cachedRestaurantList)
     }
 
 }

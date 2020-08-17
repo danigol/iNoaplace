@@ -1,6 +1,5 @@
 package com.daniellegolinsky.inoaplace.model
 
-import android.util.Log
 import java.io.Serializable
 
 class RestaurantInfo() : Serializable {
@@ -29,7 +28,6 @@ class RestaurantInfo() : Serializable {
     fun getLatestGrade(): String {
         if (mostRecentHealthScore.isBlank()) {
             var latestHealthGrade = HealthGrade()
-
             if (grades.isNotEmpty()) {
                 latestHealthGrade = grades[0]
             }
