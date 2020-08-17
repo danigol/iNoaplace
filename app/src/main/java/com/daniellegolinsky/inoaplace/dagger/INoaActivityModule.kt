@@ -9,7 +9,8 @@ abstract class INoaActivityModule {
 
     @ContributesAndroidInjector(
         modules = [
-            INoaFragmentModule::class
+            INoaFragmentModule::class,
+            INoaViewModelModule::class
         ]
     )
     abstract fun contributesINoaActivity(): INoaActivity

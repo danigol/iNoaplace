@@ -8,4 +8,5 @@
     <string name="forward">&gt;</string>
     <string name="forward_forward">&gt;&gt;</string>
     <string name="empty_list_error">No restaurant data loaded, please refresh.</string>
+    <string name="refresh">Refresh page</string>
 </resources>

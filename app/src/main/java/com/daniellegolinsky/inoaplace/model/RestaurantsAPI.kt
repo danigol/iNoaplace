@@ -11,6 +11,6 @@ interface RestaurantsAPI {
      * gist: danigol/e3204914a9bebd81458cfcea69cf05ef/raw/6182d12c88d6ae87d08723798d97b9c489552f44/testJson.json
      * gist: danigol/ff71caf344140d8ab9617ba9d03b17a0/raw/70fd209e36319cd42005801cb49be8cb478dd50f/testJson2.json
      */
-    @GET("danigol/ff71caf344140d8ab9617ba9d03b17a0/raw/70fd209e36319cd42005801cb49be8cb478dd50f/testJson2.json")
+    @GET("danigol/e3204914a9bebd81458cfcea69cf05ef/raw/4200013f0f32e7e44006584597b8b7a4b99c4f45/testJson.json")
     fun getRestaurantList(): Observable<List<RestaurantInfo>>
 }

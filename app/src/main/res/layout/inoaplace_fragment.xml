@@ -14,18 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/refresh_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_baseline_refresh_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> viewModel.requestRestaurantList()}"
-            />
-
         <ImageView
             android:id="@+id/refresh_icon"
             android:layout_width="32dp"
@@ -36,7 +24,7 @@
             android:layout_marginBottom="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/refresh_button"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/page_number"
             visibleIfEmpty="@{viewModel.isLoading}"/>
 
@@ -46,11 +34,11 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/refresh_button"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/page_number"
             visibleIfEmpty="@{viewModel.restaurantList.size() > 0}"/>
 
