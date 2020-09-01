@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.daniellegolinsky.inoaplace.model.INoaModel
+import com.daniellegolinsky.inoaplace.model.LoadingStatus
 import com.daniellegolinsky.inoaplace.model.RestaurantInfo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -23,9 +24,9 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     val pageInidicator: LiveData<String>
         get() = _pageIndicator
 
-    private var _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    private var _loadingStatus: MutableLiveData<LoadingStatus> = MutableLiveData(LoadingStatus.LOADING)
+    val loadingStatus: LiveData<LoadingStatus>
+        get() = _loadingStatus
 
     private var currentPage: Int = 0
     private var maxPages: Int = 1
@@ -37,7 +38,7 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     }
 
     fun requestRestaurantList(forceUpdateFromServer: Boolean = false) {
-        _isLoading.postValue(true)
+        _loadingStatus.value = LoadingStatus.LOADING
         disposables.add(
             model.getRestaurantList(forceUpdateFromServer)
                 .map { newRestaurantInfo ->
@@ -57,11 +58,15 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
                         ))
                         _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
                     }
+                    _loadingStatus.postValue(LoadingStatus.LOADED)
                 }
-                .doOnError { Log.e("VIEWMODEL", "Error: ${it?.message}") }
+                .doOnError {
+                    Log.e("VIEWMODEL", "Error: ${it?.message}")
+                    _loadingStatus.postValue(LoadingStatus.ERROR)
+                    _restaurantList.postValue(mutableListOf())
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { _isLoading.postValue(false) }
                 .subscribe()
         )
     }
