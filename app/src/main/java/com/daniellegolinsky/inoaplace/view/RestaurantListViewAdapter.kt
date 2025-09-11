@@ -12,7 +12,7 @@ class RestaurantListViewAdapter : RecyclerView.Adapter<RestaurantListItemViewHol
 
     fun setRestaurantInfoList(newList: List<RestaurantInfo>) {
         restaurantInfoList = newList
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Not as efficient, but only called when the *entire* list changed anyway
     }
 
     override fun getItemCount() = restaurantInfoList.size
@@ -28,3 +28,4 @@ class RestaurantListViewAdapter : RecyclerView.Adapter<RestaurantListItemViewHol
         holder.bind(restaurantInfoList[position])
     }
 }
+

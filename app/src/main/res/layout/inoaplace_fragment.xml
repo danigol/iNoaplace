@@ -10,6 +10,12 @@
             type="com.daniellegolinsky.inoaplace.viewModel.INoaViewModel" />
     </data>
 
+    <!--
+        TODO
+            Split this out into parts. Buttons should be in one view, recycler view and
+            loading in another. Then we can pass in just the list to the view, not the
+            entire viewmodel, and just the functions into the buttons.
+        -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,6 +43,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/ic_baseline_refresh_24"
+            android:contentDescription="@string/refresh_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
