@@ -38,7 +38,7 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
     }
 
     fun requestRestaurantList(forceUpdateFromServer: Boolean = false) {
-        _loadingStatus.value = LoadingStatus.LOADING
+        _loadingStatus.postValue(LoadingStatus.LOADING)
         disposables.add(
             model.getRestaurantList(forceUpdateFromServer)
                 .map { newRestaurantInfo ->
@@ -58,6 +58,7 @@ class INoaViewModel @Inject constructor(var model: INoaModel) : ViewModel() {
                         ))
                         _pageIndicator.postValue("Page: ${currentPage + 1} of $maxPages")
                     }
+                }.doOnComplete {
                     _loadingStatus.postValue(LoadingStatus.LOADED)
                 }
                 .doOnError {
