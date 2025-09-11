@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daniellegolinsky.inoaplace.R
 import com.daniellegolinsky.inoaplace.dagger.ViewModelProviderFactory
 import com.daniellegolinsky.inoaplace.databinding.InoaplaceFragmentBinding
+import com.daniellegolinsky.inoaplace.model.LoadingStatus
 import com.daniellegolinsky.inoaplace.model.RestaurantInfo
 import com.daniellegolinsky.inoaplace.viewModel.INoaViewModel
 import dagger.android.support.DaggerFragment
@@ -30,10 +31,9 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
-                                      .get(INoaViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelProviderFactory)[INoaViewModel::class.java]
         viewModel.restaurantList.observe(this, Observer { updateList(it) })
-        viewModel.isLoading.observe(this, Observer { layoutBinding?.invalidateAll() })
+        viewModel.loadingStatus.observe(this, Observer { updateLoadingView(it) })
 
         recyclerViewAdapter = RestaurantListViewAdapter()
     }
@@ -70,6 +70,30 @@ class INoaFragment @Inject constructor() : DaggerFragment() {
         restaurantList?.let {
             recyclerViewAdapter.setRestaurantInfoList(restaurantList)
             layoutBinding.invalidateAll()
+        }
+    }
+
+    /**
+     * Makes use of Kotlin Synthetic Views
+     * View elements found in inoaplace_fragment.xml in res/layout/
+     */
+    private fun updateLoadingView(loadingStatus: LoadingStatus) {
+        when (loadingStatus) {
+            LoadingStatus.LOADED -> {
+                layoutBinding.restaurantListRecyclerview.visibility = View.VISIBLE
+                layoutBinding.refreshIcon.visibility = View.GONE
+                layoutBinding.listEmptyMessage.visibility = View.GONE
+            }
+            LoadingStatus.LOADING -> {
+                layoutBinding.restaurantListRecyclerview.visibility = View.INVISIBLE
+                layoutBinding.refreshIcon.visibility = View.VISIBLE
+                layoutBinding.listEmptyMessage.visibility = View.GONE
+            }
+            LoadingStatus.ERROR -> {
+                layoutBinding.restaurantListRecyclerview.visibility = View.INVISIBLE
+                layoutBinding.refreshIcon.visibility = View.GONE
+                layoutBinding.listEmptyMessage.visibility = View.VISIBLE
+            }
         }
     }
 }
